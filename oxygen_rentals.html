@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OxyRent — Premium Oxygen Concentrator Rentals</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --gold-dark: #8B6914;
+    --navy: #0A1628;
+    --navy-mid: #132240;
+    --navy-light: #1E3460;
+    --cream: #F9F4EB;
+    --cream-dark: #EDE5D5;
+    --white: #FFFFFF;
+    --text-muted: #7A8BA0;
+    --text-light: #B0C0D0;
+    --red-soft: #C0392B;
+    --teal: #1A7A74;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 5vw;
+    background: rgba(10,22,40,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--cream); }
+
+  .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-light); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.6rem 1.6rem;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    transition: background 0.3s, color 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--navy) !important; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 5vw 6rem 7vw;
+    position: relative; z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 3rem; height: 1px; background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300; line-height: 1.08;
+    color: var(--cream);
+    margin-bottom: 1.6rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 0.95rem; line-height: 1.9;
+    color: var(--text-light); max-width: 38ch;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-block; padding: 1rem 2.4rem;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-block; padding: 1rem 2.4rem;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--cream);
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem; font-weight: 300;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 0.3rem;
+  }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: var(--navy-mid);
+  }
+
+  .hero-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(10,22,40,0.5) 0%, rgba(26,52,96,0.2) 100%);
+    z-index: 1;
+  }
+
+  .hero-visual {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+
+  /* Decorative oxygen machine SVG illustration */
+  .machine-card {
+    width: 260px;
+    background: rgba(19,34,64,0.85);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 2px;
+    padding: 2rem;
+    position: relative;
+  }
+  .machine-card::before {
+    content: '';
+    position: absolute; top: 8px; left: 8px; right: -8px; bottom: -8px;
+    border: 1px solid rgba(201,168,76,0.15);
+    z-index: -1;
+  }
+  .machine-icon { font-size: 3.5rem; text-align: center; margin-bottom: 1rem; }
+  .machine-label {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); text-align: center; margin-bottom: 1.5rem;
+  }
+  .machine-specs { display: flex; flex-direction: column; gap: 0.6rem; }
+  .spec-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem; color: var(--text-light);
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .spec-val { color: var(--gold-light); font-weight: 500; }
+
+  .badge-live {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(26,122,116,0.25); border: 1px solid var(--teal);
+    color: #5ECEC8; font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.3rem 0.7rem;
+    border-radius: 20px; margin-top: 1.2rem; width: 100%; justify-content: center;
+  }
+  .dot-live {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #5ECEC8; animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .grid-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(0deg, var(--gold) 0px, transparent 1px, transparent 40px),
+                      repeating-linear-gradient(90deg, var(--gold) 0px, transparent 1px, transparent 40px);
+  }
+
+  /* ─── MARQUEE ─── */
+  .marquee-bar {
+    background: var(--gold);
+    padding: 0.75rem 0; overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--navy); font-weight: 500; padding: 0 2.5rem;
+  }
+  .marquee-item::after {
+    content: '◆'; font-size: 0.5rem; color: var(--navy-light);
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTION TITLE ─── */
+  .section { padding: 7rem 7vw; }
+
+  .section-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+    font-weight: 300; line-height: 1.15;
+    color: var(--cream);
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-divider {
+    width: 4rem; height: 1px; background: var(--gold);
+    margin: 1.6rem 0 1.4rem;
+  }
+  .section-desc {
+    font-size: 0.95rem; line-height: 1.9; color: var(--text-light);
+    max-width: 50ch;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; margin-top: 5rem;
+  }
+  .how-left { padding-right: 5vw; }
+  .how-right {
+    border-left: 1px solid rgba(201,168,76,0.2);
+    padding-left: 5vw;
+  }
+
+  .step {
+    display: flex; gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .step.visible { opacity: 1; transform: none; }
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300;
+    color: rgba(201,168,76,0.18); line-height: 1;
+    min-width: 2.5rem;
+  }
+
+  .step-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 400;
+    color: var(--cream); margin-bottom: 0.5rem;
+  }
+  .step-content p {
+    font-size: 0.85rem; line-height: 1.8; color: var(--text-muted);
+  }
+
+  /* ─── DEVICES SECTION ─── */
+  .devices-section {
+    background: var(--cream);
+    padding: 7rem 7vw;
+  }
+  .devices-section .section-eyebrow { color: var(--gold-dark); }
+  .devices-section .section-title { color: var(--navy); }
+  .devices-section .section-desc { color: #5A6A7A; }
+  .devices-section .section-divider { background: var(--gold-dark); }
+
+  .device-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: 4rem;
+    background: rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .device-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .device-card:hover { background: var(--cream-dark); }
+
+  .device-tag {
+    font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--white); background: var(--gold-dark);
+    display: inline-block; padding: 0.25rem 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+  .device-tag.popular { background: var(--teal); }
+  .device-tag.premium { background: var(--navy); }
+
+  .device-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400;
+    color: var(--navy); margin-bottom: 0.4rem;
+  }
+  .device-model {
+    font-size: 0.75rem; color: #8A9AAA; letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+
+  .device-specs {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+  .d-spec {
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; color: #5A6A7A;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .d-spec-v { font-weight: 500; color: var(--navy); }
+
+  .device-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; color: var(--gold-dark);
+  }
+  .device-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 400; color: #8A9AAA;
+  }
+
+  .device-cta {
+    display: block; width: 100%; margin-top: 1.4rem;
+    padding: 0.85rem; text-align: center;
+    border: 1px solid var(--navy);
+    color: var(--navy); font-size: 0.72rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .device-cta:hover { background: var(--navy); color: var(--white); }
+
+  /* ─── WHY US ─── */
+  .why-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 4rem;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .why-item {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(201,168,76,0.15);
+    transition: background 0.3s;
+  }
+  .why-item:last-child { border-right: none; }
+  .why-item:hover { background: rgba(201,168,76,0.04); }
+
+  .why-icon {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(201,168,76,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1.4rem;
+  }
+  .why-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 400;
+    color: var(--cream); margin-bottom: 0.6rem;
+  }
+  .why-desc {
+    font-size: 0.8rem; line-height: 1.8; color: var(--text-muted);
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-section {
+    background: var(--navy-mid);
+    padding: 7rem 7vw;
+    position: relative; overflow: hidden;
+  }
+
+  .testi-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem; margin-top: 4rem;
+  }
+
+  .testi-card {
+    background: rgba(10,22,40,0.6);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 2rem;
+    position: relative;
+  }
+  .testi-card::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; line-height: 0.5;
+    color: rgba(201,168,76,0.15);
+    position: absolute; top: 1.5rem; left: 1.5rem;
+  }
+
+  .testi-text {
+    font-size: 0.88rem; line-height: 1.9;
+    color: var(--text-light); margin-bottom: 1.5rem;
+    padding-top: 1.5rem;
+  }
+  .testi-author { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.1em; }
+  .testi-city { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+  /* ─── EMERGENCY BANNER ─── */
+  .emergency-banner {
+    background: rgba(192,57,43,0.12);
+    border-top: 1px solid rgba(192,57,43,0.35);
+    border-bottom: 1px solid rgba(192,57,43,0.35);
+    padding: 1.4rem 7vw;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+  }
+  .emergency-left {
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .emergency-icon { font-size: 1.6rem; }
+  .emergency-text { font-size: 0.85rem; color: var(--cream); }
+  .emergency-text strong {
+    font-size: 0.9rem; letter-spacing: 0.05em;
+    color: #E87472;
+  }
+  .emergency-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 400;
+    color: #E87472; letter-spacing: 0.05em;
+    text-decoration: none; white-space: nowrap;
+  }
+
+  /* ─── RENTAL FORM ─── */
+  .form-section {
+    background: var(--cream);
+    padding: 7rem 7vw;
+  }
+  .form-section .section-title { color: var(--navy); }
+  .form-section .section-eyebrow { color: var(--gold-dark); }
+  .form-section .section-divider { background: var(--gold-dark); }
+  .form-section .section-desc { color: #5A6A7A; }
+
+  .form-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 5vw; margin-top: 4rem; }
+
+  .form-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 3rem;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .form-group.full { grid-column: 1/-1; }
+
+  label {
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #5A6A7A;
+  }
+
+  input[type="text"], input[type="tel"], input[type="date"], select, textarea {
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; color: var(--navy);
+    outline: none; width: 100%;
+    transition: border-color 0.3s;
+    border-radius: 0;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--gold-dark); }
+
+  .form-submit {
+    width: 100%; padding: 1.1rem;
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: pointer; margin-top: 0.5rem;
+    transition: background 0.3s;
+  }
+  .form-submit:hover { background: var(--navy-light); }
+
+  /* Sidebar info */
+  .form-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+  .sidebar-card {
+    background: var(--white);
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 1.8rem;
+  }
+  .sidebar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--navy); margin-bottom: 1rem;
+  }
+  .sidebar-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .sidebar-item {
+    font-size: 0.8rem; color: #5A6A7A; line-height: 1.6;
+    padding-left: 1rem; position: relative;
+  }
+  .sidebar-item::before {
+    content: '—'; position: absolute; left: 0; color: var(--gold-dark);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 4rem 7vw 2rem;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 2rem;
+  }
+  .footer-brand .logo { font-size: 1.4rem; margin-bottom: 1rem; }
+  .footer-desc { font-size: 0.82rem; line-height: 1.8; color: var(--text-muted); }
+
+  .footer-col h4 {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .footer-col a {
+    display: block; font-size: 0.82rem; color: var(--text-muted);
+    text-decoration: none; margin-bottom: 0.6rem;
+    transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .how-grid, .testi-grid, .form-grid { grid-template-columns: 1fr; }
+    .device-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .how-right { border-left: none; border-top: 1px solid rgba(201,168,76,0.2); padding-left: 0; padding-top: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Oxy<span>Rent</span></div>
+  <div class="nav-links">
+    <a href="#devices">Devices</a>
+    <a href="#how">How It Works</a>
+    <a href="#why">Why Us</a>
+    <a href="#book" class="nav-cta">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Premium Medical Equipment Rental</div>
+    <h1>Breathe with <em>Confidence</em> — Every Day</h1>
+    <p class="hero-desc">Hospital-grade oxygen concentrators delivered to your home. Flexible rental terms, 24/7 clinical support, and certified devices from leading global brands.</p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary">Book a Concentrator</a>
+      <a href="#devices" class="btn-ghost">View Devices</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">3,200+</div>
+        <div class="stat-label">Patients Served</div>
+      </div>
+      <div>
+        <div class="stat-num">24 / 7</div>
+        <div class="stat-label">Clinical Support</div>
+      </div>
+      <div>
+        <div class="stat-num">Same Day</div>
+        <div class="stat-label">Delivery Available</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="grid-pattern"></div>
+    <div class="hero-img-overlay"></div>
+    <div class="hero-visual">
+      <div class="machine-card">
+        <div class="machine-icon">🫁</div>
+        <div class="machine-label">5 LPM Concentrator</div>
+        <div class="machine-specs">
+          <div class="spec-row"><span>Flow Rate</span><span class="spec-val">1–5 LPM</span></div>
+          <div class="spec-row"><span>Purity</span><span class="spec-val">93% ± 3%</span></div>
+          <div class="spec-row"><span>Noise Level</span><span class="spec-val">≤ 45 dB</span></div>
+          <div class="spec-row"><span>Weight</span><span class="spec-val">14 kg</span></div>
+          <div class="spec-row"><span>Power</span><span class="spec-val">150W</span></div>
+        </div>
+        <div class="badge-live">
+          <div class="dot-live"></div>
+          Available in your city
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item">Philips Respironics</span>
+    <span class="marquee-item">Invacare Perfecto2</span>
+    <span class="marquee-item">DeVilbiss 5L</span>
+    <span class="marquee-item">Airsep VisionAire</span>
+    <span class="marquee-item">Inogen One G5</span>
+    <span class="marquee-item">CAIRE Companion</span>
+    <span class="marquee-item">Philips Respironics</span>
+    <span class="marquee-item">Invacare Perfecto2</span>
+    <span class="marquee-item">DeVilbiss 5L</span>
+    <span class="marquee-item">Airsep VisionAire</span>
+    <span class="marquee-item">Inogen One G5</span>
+    <span class="marquee-item">CAIRE Companion</span>
+  </div>
+</div>
+
+<!-- EMERGENCY BANNER -->
+<div class="emergency-banner">
+  <div class="emergency-left">
+    <div class="emergency-icon">🚨</div>
+    <div class="emergency-text">
+      <strong>Emergency Oxygen Delivery Available 24 / 7</strong><br>
+      Call our rapid response line — delivery within 2–4 hours in major cities
+    </div>
+  </div>
+  <a href="tel:18001234567" class="emergency-number">1800-123-4567</a>
+</div>
+
+<!-- DEVICES -->
+<section class="devices-section" id="devices">
+  <div class="section-eyebrow">Our Fleet</div>
+  <div class="section-title">Certified Devices for <em>Every Need</em></div>
+  <div class="section-divider"></div>
+  <p class="section-desc">All devices are sanitised, calibrated, and certified before each rental. Our fleet covers stationary, portable, and high-flow clinical applications.</p>
+
+  <div class="device-grid fade-up">
+    <div class="device-card">
+      <div class="device-tag">Entry Level</div>
+      <div class="device-name">Concentrator Pro 5</div>
+      <div class="device-model">Philips Respironics EverFlo</div>
+      <div class="device-specs">
+        <div class="d-spec"><span>Flow Rate</span><span class="d-spec-v">1–5 LPM</span></div>
+        <div class="d-spec"><span>O₂ Purity</span><span class="d-spec-v">87–95%</span></div>
+        <div class="d-spec"><span>Noise</span><span class="d-spec-v">45 dB</span></div>
+        <div class="d-spec"><span>Weight</span><span class="d-spec-v">14 kg</span></div>
+        <div class="d-spec"><span>Power</span><span class="d-spec-v">150 W</span></div>
+      </div>
+      <div class="device-price">₹499 <span>/ day</span></div>
+      <a href="#book" class="device-cta">Rent This Device</a>
+    </div>
+
+    <div class="device-card">
+      <div class="device-tag popular">Most Popular</div>
+      <div class="device-name">AirElite 10 LPM</div>
+      <div class="device-model">DeVilbiss 10L Dual Flow</div>
+      <div class="device-specs">
+        <div class="d-spec"><span>Flow Rate</span><span class="d-spec-v">1–10 LPM</span></div>
+        <div class="d-spec"><span>O₂ Purity</span><span class="d-spec-v">93–95%</span></div>
+        <div class="d-spec"><span>Noise</span><span class="d-spec-v">48 dB</span></div>
+        <div class="d-spec"><span>Weight</span><span class="d-spec-v">18 kg</span></div>
+        <div class="d-spec"><span>Power</span><span class="d-spec-v">300 W</span></div>
+      </div>
+      <div class="device-price">₹749 <span>/ day</span></div>
+      <a href="#book" class="device-cta">Rent This Device</a>
+    </div>
+
+    <div class="device-card">
+      <div class="device-tag premium">Premium Portable</div>
+      <div class="device-name">BreezePOC Elite</div>
+      <div class="device-model">Inogen One G5 Portable</div>
+      <div class="device-specs">
+        <div class="d-spec"><span>Mode</span><span class="d-spec-v">Pulse + Cont.</span></div>
+        <div class="d-spec"><span>O₂ Purity</span><span class="d-spec-v">90–95%</span></div>
+        <div class="d-spec"><span>Noise</span><span class="d-spec-v">38 dB</span></div>
+        <div class="d-spec"><span>Weight</span><span class="d-spec-v">2.7 kg</span></div>
+        <div class="d-spec"><span>Battery</span><span class="d-spec-v">4.5 hrs</span></div>
+      </div>
+      <div class="device-price">₹999 <span>/ day</span></div>
+      <a href="#book" class="device-cta">Rent This Device</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-eyebrow">The Process</div>
+  <div class="section-title">Simple. Fast. <em>Reliable.</em></div>
+  <div class="section-divider"></div>
+  <p class="section-desc">From inquiry to delivery — our streamlined process ensures you receive the right device without delays or confusion.</p>
+
+  <div class="how-grid">
+    <div class="how-left">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Submit Your Request</h3>
+          <p>Fill out our rental form with the prescribed flow rate, duration, and your delivery address. A prescription or doctor's note may be needed for clinical-grade devices.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Device Selection & Confirmation</h3>
+          <p>Our clinical team reviews your requirements and recommends the most suitable device. You receive a confirmation call within 30 minutes of your request.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how-right">
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Sanitisation & Dispatch</h3>
+          <p>Every device is thoroughly sanitised, calibrated, and quality-checked before leaving our facility. A trained technician accompanies delivery to install and brief the patient.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Ongoing Support & Pickup</h3>
+          <p>24/7 clinical helpline available throughout your rental. At the end of your rental period, we collect the device — no hassle, no hidden fees.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" style="padding-top:0;" id="why">
+  <div class="section-eyebrow">Why OxyRent</div>
+  <div class="section-title">A Standard of Care Above <em>All Else</em></div>
+  <div class="section-divider"></div>
+
+  <div class="why-grid fade-up">
+    <div class="why-item">
+      <div class="why-icon">🏥</div>
+      <div class="why-title">Hospital-Grade Devices</div>
+      <p class="why-desc">Every concentrator meets ISO 13485 and BIS certification standards — the same equipment used in ICUs nationwide.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">⚡</div>
+      <div class="why-title">Same-Day Delivery</div>
+      <p class="why-desc">Order before 2 PM in select cities and receive delivery the same day. Emergency delivery available around the clock.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🩺</div>
+      <div class="why-title">Clinical Support 24/7</div>
+      <p class="why-desc">Access our team of certified respiratory therapists and clinical staff at any hour via phone, WhatsApp, or video call.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🔄</div>
+      <div class="why-title">Free Replacement Guarantee</div>
+      <p class="why-desc">Device malfunction? We dispatch a replacement within 2 hours — no questions asked. Zero risk of supply interruption.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-eyebrow">Patient Stories</div>
+  <div class="section-title">Trusted by Families <em>Across India</em></div>
+  <div class="section-divider"></div>
+
+  <div class="testi-grid fade-up">
+    <div class="testi-card">
+      <p class="testi-text">We needed an oxygen concentrator urgently post-surgery. OxyRent delivered within three hours. The technician set everything up and showed us exactly how to operate it. Exceptional service in a stressful time.</p>
+      <div class="testi-author">Meena Krishnamurthy</div>
+      <div class="testi-city">Chennai, Tamil Nadu</div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">My father has COPD and requires continuous oxygen. Monthly rental from OxyRent is cost-effective and completely worry-free. The 24/7 support line is genuinely available — we tested it at 3 AM.</p>
+      <div class="testi-author">Rohit Sharma</div>
+      <div class="testi-city">New Delhi</div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">The portable concentrator allowed my mother to attend a family function without interrupting her oxygen therapy. The battery life was excellent. I will recommend OxyRent to every family dealing with respiratory illness.</p>
+      <div class="testi-author">Anjali Patil</div>
+      <div class="testi-city">Pune, Maharashtra</div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK FORM -->
+<section class="form-section" id="book">
+  <div class="section-eyebrow">Reserve Your Device</div>
+  <div class="section-title">Book Your <em>Concentrator</em></div>
+  <div class="section-divider"></div>
+  <p class="section-desc">Complete the form below and our team will confirm your booking within 30 minutes.</p>
+
+  <div class="form-grid">
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Patient Name</label>
+          <input type="text" placeholder="Full Name" />
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" />
+        </div>
+        <div class="form-group">
+          <label>Rental Duration</label>
+          <select>
+            <option>1 Week</option>
+            <option>2 Weeks</option>
+            <option>1 Month</option>
+            <option>3 Months</option>
+            <option>6 Months</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Device Type</label>
+          <select>
+            <option>Concentrator Pro 5 (5 LPM)</option>
+            <option>AirElite 10 LPM</option>
+            <option>BreezePOC Elite (Portable)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Prescribed Flow Rate</label>
+          <select>
+            <option>1 LPM</option>
+            <option>2 LPM</option>
+            <option>3 LPM</option>
+            <option>4 LPM</option>
+            <option>5 LPM</option>
+            <option>6 LPM+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <input type="text" placeholder="House / Flat, Street, Locality, City, PIN" />
+      </div>
+
+      <div class="form-group">
+        <label>Additional Notes (Optional)</label>
+        <textarea rows="3" placeholder="Diagnosis, special requirements, preferred delivery time..."></textarea>
+      </div>
+
+      <button class="form-submit" onclick="alert('Thank you! Our team will call you within 30 minutes to confirm your booking.')">Submit Rental Request →</button>
+    </div>
+
+    <div class="form-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title">What's Included</div>
+        <div class="sidebar-list">
+          <div class="sidebar-item">Certified, sanitised concentrator</div>
+          <div class="sidebar-item">Nasal cannula & oxygen tubing (2 sets)</div>
+          <div class="sidebar-item">Humidifier bottle</div>
+          <div class="sidebar-item">Flow meter with instruction card</div>
+          <div class="sidebar-item">Home installation by trained technician</div>
+          <div class="sidebar-item">24/7 clinical helpline access</div>
+          <div class="sidebar-item">Free replacement within 2 hours if needed</div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Flexible Billing</div>
+        <div class="sidebar-list">
+          <div class="sidebar-item">Daily, weekly & monthly plans available</div>
+          <div class="sidebar-item">Security deposit refunded on return</div>
+          <div class="sidebar-item">Extend rental anytime with one call</div>
+          <div class="sidebar-item">Insurance documentation provided</div>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Service Cities</div>
+        <div class="sidebar-list">
+          <div class="sidebar-item">Delhi NCR, Mumbai, Bangalore</div>
+          <div class="sidebar-item">Chennai, Hyderabad, Pune, Kolkata</div>
+          <div class="sidebar-item">Ahmedabad, Jaipur, Bhubaneswar</div>
+          <div class="sidebar-item">50+ additional cities via partners</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo">Oxy<span>Rent</span></div>
+      <p class="footer-desc">India's premium oxygen concentrator rental service. Delivering hospital-grade respiratory care to homes since 2018. Certified. Trusted. Always available.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#">Home Rental</a>
+      <a href="#">Emergency Delivery</a>
+      <a href="#">Long-Term Care</a>
+      <a href="#">Clinical Consulting</a>
+    </div>
+    <div class="footer-col">
+      <h4>Devices</h4>
+      <a href="#">5 LPM Concentrators</a>
+      <a href="#">10 LPM Concentrators</a>
+      <a href="#">Portable POC</a>
+      <a href="#">Liquid Oxygen Systems</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">1800-123-4567 (Free)</a>
+      <a href="#">support@oxyrent.in</a>
+      <a href="#">WhatsApp Support</a>
+      <a href="#">Find a Service Centre</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 OxyRent India Pvt. Ltd. All rights reserved.</span>
+    <span>ISO 13485 Certified · BIS Approved Devices · CDSCO Registered</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        const steps = e.target.querySelectorAll ? e.target.querySelectorAll('.step') : [];
+        steps.forEach((s, i) => {
+          setTimeout(() => s.classList.add('visible'), i * 150);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up, .step, section').forEach(el => observer.observe(el));
+  document.querySelectorAll('.step').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
